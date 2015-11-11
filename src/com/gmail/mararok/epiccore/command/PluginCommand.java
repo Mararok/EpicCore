@@ -11,13 +11,14 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 
+/**
+ * Base class for command
+ */
 public abstract class PluginCommand<P extends JavaPlugin> implements CommandExecutor {
-  private String name;
   private CommandMetadata metadata;
   private P plugin;
 
-  public PluginCommand(String name, CommandMetadata metadata, P plugin) {
-    this.name = name;
+  public PluginCommand(CommandMetadata metadata, P plugin) {
     this.metadata = metadata;
     this.plugin = plugin;
   }
@@ -28,14 +29,14 @@ public abstract class PluginCommand<P extends JavaPlugin> implements CommandExec
   }
 
   protected abstract boolean onCommand(CommandSender sender, CommandArguments<P> arguments);
-  
+
   protected void sendDescription(CommandSender sender) {
     String message = ChatColor.YELLOW + "" + ChatColor.BOLD + getDisplayName() + ChatColor.RESET + " - " + getDescription();
     sender.sendMessage(message);
   }
-  
+
   public String getName() {
-    return name;
+    return metadata.name;
   }
 
   public String getDisplayName() {
@@ -53,7 +54,7 @@ public abstract class PluginCommand<P extends JavaPlugin> implements CommandExec
   public String[] getPermissions() {
     return metadata.permissions;
   }
-  
+
   public boolean hasPermissions(CommandSender sender) {
     for (String permission : getPermissions()) {
       if (!sender.hasPermission(permission)) {
@@ -62,11 +63,11 @@ public abstract class PluginCommand<P extends JavaPlugin> implements CommandExec
     }
     return true;
   }
-  
+
   public int getRequiredArgumentAmount() {
     return metadata.requiredArgumentAmount;
   }
-  
+
   public P getPlugin() {
     return plugin;
   }
