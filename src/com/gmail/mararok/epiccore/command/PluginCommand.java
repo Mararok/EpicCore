@@ -9,6 +9,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**
@@ -24,10 +25,17 @@ public abstract class PluginCommand<P extends JavaPlugin> implements CommandExec
 
   @Override
   public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-    return onCommand(sender, new CommandArguments<P>(args));
+    CommandArguments<P> arguments = new CommandArguments<P>(args);
+    return (sender instanceof Player) ? onCommandAsPlayer((Player) sender, arguments) : onCommand(sender, arguments);
   }
 
-  protected abstract boolean onCommand(CommandSender sender, CommandArguments<P> arguments);
+  protected boolean onCommand(CommandSender sender, CommandArguments<P> arguments) {
+    return false;
+  }
+
+  protected boolean onCommandAsPlayer(Player sender, CommandArguments<P> arguments) {
+    return onCommand(sender, arguments);
+  }
 
   protected void sendDescription(CommandSender sender) {
     String message = ChatColor.YELLOW + "" + ChatColor.BOLD + getDisplayName() + ChatColor.RESET + " - " + getDescription();
