@@ -27,4 +27,47 @@ public class CommandMetadata {
     permissions = metadata.permissions;
     requiredArgumentAmount = metadata.requiredArgumentAmount;
   }
+
+  public static Builder command(String name) {
+    return new Builder(name);
+  }
+
+  public static class Builder {
+    private CommandMetadata metadata;
+
+    public Builder(String commandName) {
+      metadata = new CommandMetadata();
+      metadata.name = commandName;
+    }
+
+    public Builder displayName(String displayName) {
+      metadata.displayName = displayName;
+      return this;
+    }
+
+    public Builder description(String description) {
+      metadata.description = description;
+      return this;
+    }
+
+    public Builder usage(String usage) {
+      metadata.usage = usage;
+      return this;
+    }
+
+    public Builder permissions(String[] permissions) {
+      metadata.permissions = permissions;
+      return this;
+    }
+
+    public Builder requiredArgumentAmount(int requiredArgumentAmount) {
+      metadata.requiredArgumentAmount = requiredArgumentAmount;
+      return this;
+    }
+
+    public CommandMetadata create() {
+      return new CommandMetadata(metadata);
+    }
+
+  }
 }
