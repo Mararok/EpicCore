@@ -9,8 +9,8 @@ public abstract class ChildPluginCommand<P extends JavaPlugin> extends PluginCom
   private ParentPluginCommand<P> parent;
   private int index = -1;
 
-  public ChildPluginCommand(CommandMetadata metadata, P plugin) {
-    super(metadata, plugin);
+  public ChildPluginCommand(P plugin) {
+    super(plugin);
   }
 
   public ParentPluginCommand<P> getParent() {

@@ -12,10 +12,10 @@ public class Language {
   private String prefix;
   private String author;
   private String version;
-  
+
   private Map<String, String> strings;
 
-  public Language(String name, String prefix, String author, String version, Map<String,String> strings) {
+  public Language(String name, String prefix, String author, String version, Map<String, String> strings) {
     this.name = name;
     this.prefix = prefix;
     this.author = author;
@@ -26,25 +26,33 @@ public class Language {
   public String getName() {
     return name;
   }
-  
+
   public String getPrefix() {
     return prefix;
   }
-  
+
   public String getAuthor() {
     return author;
   }
-  
+
   public String getVersion() {
     return version;
   }
-  
+
   /**
-   * Returns string from key or when isn't exists returns key.
+   * @return text from key or when isn't exists returns key.
    */
-  public String getString(String key) {
+  public String getText(String key) {
     String string = strings.get(key);
     return (string == null) ? key : string;
   }
-  
+
+  /**
+   * @return formated text from key or when isn't exists returns key.
+   */
+  public String getFormatedText(String key, Object... arguments) {
+    String text = getText(key);
+    return (text != key) ? String.format(getText(key), arguments) : key;
+  }
+
 }

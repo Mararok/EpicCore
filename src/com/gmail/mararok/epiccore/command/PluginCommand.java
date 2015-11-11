@@ -18,8 +18,7 @@ public abstract class PluginCommand<P extends JavaPlugin> implements CommandExec
   private CommandMetadata metadata;
   private P plugin;
 
-  public PluginCommand(CommandMetadata metadata, P plugin) {
-    this.metadata = metadata;
+  public PluginCommand(P plugin) {
     this.plugin = plugin;
   }
 
@@ -66,6 +65,10 @@ public abstract class PluginCommand<P extends JavaPlugin> implements CommandExec
 
   public int getRequiredArgumentAmount() {
     return metadata.requiredArgumentAmount;
+  }
+
+  protected void setMetadata(CommandMetadata metadata) {
+    this.metadata = metadata;
   }
 
   public P getPlugin() {

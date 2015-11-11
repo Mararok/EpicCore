@@ -15,8 +15,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 public abstract class ParentPluginCommand<P extends JavaPlugin> extends ChildPluginCommand<P> {
   private Collection<ChildPluginCommand<P>> children;
 
-  public ParentPluginCommand(CommandMetadata metadata, P plugin) {
-    super(metadata, plugin);
+  public ParentPluginCommand(P plugin) {
+    super(plugin);
     children = new ArrayList<ChildPluginCommand<P>>();
   }
 
