@@ -12,7 +12,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import com.gmail.mararok.epiccore.StringUtil;
 
 /**
- * Simple command arguments wrapper. 
+ * Simple command arguments wrapper.
  * Supports subcommands in args, type checking methods and required args amount check
  */
 
@@ -27,6 +27,10 @@ public class CommandArguments<P extends JavaPlugin> {
 
   public boolean isExists(int index) {
     return getAmount() > index;
+  }
+
+  public boolean hasAny() {
+    return amount != 0;
   }
 
   public String get(int index) {
