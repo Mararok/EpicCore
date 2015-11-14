@@ -5,6 +5,8 @@
  */
 package com.gmail.mararok.epiccore.command;
 
+import java.util.logging.Level;
+
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -26,14 +28,23 @@ public abstract class PluginCommand<P extends JavaPlugin> implements CommandExec
   @Override
   public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
     CommandArguments<P> arguments = new CommandArguments<P>(args);
-    return (sender instanceof Player) ? onCommandAsPlayer((Player) sender, arguments) : onCommand(sender, arguments);
+    try {
+      return (sender instanceof Player) ? onCommandAsPlayer((Player) sender, arguments) : onCommand(sender, arguments);
+    } catch (Exception e) {
+      getPlugin().getLogger().log(Level.SEVERE, "exception in command: " + getName() + " with arguments: " + arguments + " and sender: " + sender.getName(), e);
+      return false;
+    }
   }
 
-  protected boolean onCommand(CommandSender sender, CommandArguments<P> arguments) {
+  protected boolean onCommand(CommandSender sender, CommandArguments<P> arguments) throws Exception {
     return false;
   }
 
-  protected boolean onCommandAsPlayer(Player sender, CommandArguments<P> arguments) {
+  /**
+   * Executed when command sender is Player instance
+   * Default: execute normal onCommand
+   */
+  protected boolean onCommandAsPlayer(Player sender, CommandArguments<P> arguments) throws Exception {
     return onCommand(sender, arguments);
   }
 
@@ -58,17 +69,16 @@ public abstract class PluginCommand<P extends JavaPlugin> implements CommandExec
     return metadata.usage;
   }
 
-  public String[] getPermissions() {
-    return metadata.permissions;
+  public String getPermission() {
+    return metadata.permission;
   }
 
-  public boolean hasPermissions(CommandSender sender) {
-    for (String permission : getPermissions()) {
-      if (!sender.hasPermission(permission)) {
-        return false;
-      }
-    }
-    return true;
+  /**
+   * Checks is command sender has specified permission for use command
+   * If command don't define any permission always return true
+   */
+  public boolean hasPermission(CommandSender sender) {
+    return (metadata.permission != null) ? sender.hasPermission(metadata.permission) : true;
   }
 
   public int getRequiredArgumentAmount() {

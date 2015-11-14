@@ -13,7 +13,7 @@ public class CommandMetadata {
   public String displayName = "";
   public String description = "";
   public String usage = "";
-  public String[] permissions;
+  public String permission;
   public int requiredArgumentAmount = 0;
 
   public CommandMetadata() {
@@ -24,7 +24,7 @@ public class CommandMetadata {
     displayName = metadata.displayName;
     description = metadata.description;
     usage = metadata.usage;
-    permissions = metadata.permissions;
+    permission = metadata.permission;
     requiredArgumentAmount = metadata.requiredArgumentAmount;
   }
 
@@ -55,8 +55,8 @@ public class CommandMetadata {
       return this;
     }
 
-    public Builder permissions(String[] permissions) {
-      metadata.permissions = permissions;
+    public Builder permission(String permission) {
+      metadata.permission = permission;
       return this;
     }
 

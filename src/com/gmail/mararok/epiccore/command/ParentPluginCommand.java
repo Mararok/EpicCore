@@ -26,7 +26,7 @@ public abstract class ParentPluginCommand<P extends JavaPlugin> extends ChildPlu
   }
 
   @Override
-  protected boolean onCommand(CommandSender sender, CommandArguments<P> arguments) {
+  protected boolean onCommand(CommandSender sender, CommandArguments<P> arguments) throws Exception {
     if (arguments.isExists(0)) {
       return execSubCommand(sender, arguments);
     }
@@ -35,7 +35,7 @@ public abstract class ParentPluginCommand<P extends JavaPlugin> extends ChildPlu
     return true;
   }
 
-  private boolean execSubCommand(CommandSender sender, CommandArguments<P> arguments) {
+  private boolean execSubCommand(CommandSender sender, CommandArguments<P> arguments) throws Exception {
     String subCommandName = arguments.get(0);
     ChildPluginCommand<P> childCommand = getCommandByName(subCommandName);
     if (childCommand != null) {
