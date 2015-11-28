@@ -15,7 +15,7 @@ import com.mararok.epiccore.database.DMQL;
 import com.mararok.epiccore.entity.ObservedEntity.PropertyEntry;
 
 /**
- * SQL databases server entity mapper
+ * SQL databases entity mapper
  */
 public abstract class EntityDatabaseMapper<E extends ObservedEntity, ED> implements EntityMapper<E, ED> {
   private DMQL queries;
@@ -126,5 +126,13 @@ public abstract class EntityDatabaseMapper<E extends ObservedEntity, ED> impleme
 
   protected EntityFactory<E, ED> getFactory() {
     return factory;
+  }
+
+  protected static String columns(String... columns) {
+    return String.join(",", columns);
+  }
+
+  protected static String values(String... values) {
+    return String.join(",", values);
   }
 }
