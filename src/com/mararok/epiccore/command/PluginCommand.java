@@ -32,6 +32,7 @@ public abstract class PluginCommand<P extends JavaPlugin> implements CommandExec
       return (sender instanceof Player) ? onCommandAsPlayer((Player) sender, arguments) : onCommand(sender, arguments);
     } catch (Exception e) {
       getPlugin().getLogger().log(Level.SEVERE, "exception in command: " + getName() + " with arguments: " + arguments + " and sender: " + sender.getName(), e);
+      sender.sendMessage("INTERNAL ERROR");
       return false;
     }
   }
