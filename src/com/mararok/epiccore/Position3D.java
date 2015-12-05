@@ -6,9 +6,7 @@
 package com.mararok.epiccore;
 
 public class Position3D implements Cloneable {
-  public int x;
-  public int y;
-  public int z;
+  public int x, y, z;
 
   public Position3D() {
   }
@@ -23,12 +21,12 @@ public class Position3D implements Cloneable {
     this.z = z;
   }
 
-  public double getDistance2DTo(Position3D other) {
-    return UMath.getDistance2D(x, y, other.x, other.y);
+  public double distance(Position3D other) {
+    return UMath.distance(x, y, z, other.x, other.y, other.z);
   }
 
-  public double getDistance3DTo(Position3D other) {
-    return UMath.getDistance3D(x, y, z, other.x, other.y, other.z);
+  public boolean isWithinSphere(Position3D sphereCenter, int radius) {
+    return UMath.isPointWithinSphere(x, y, z, sphereCenter.x, sphereCenter.y, sphereCenter.z, radius);
   }
 
   @Override
