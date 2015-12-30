@@ -10,22 +10,20 @@ package com.mararok.epiccore.command;
  */
 public class CommandMetadata {
   public String name;
-  public String displayName = "";
   public String description = "";
   public String usage = "";
-  public String permission;
-  public int requiredArgumentAmount = 0;
+  public String permission = "";
+  public int requiredArguments;
 
   public CommandMetadata() {
   }
 
   public CommandMetadata(CommandMetadata metadata) {
     name = metadata.name;
-    displayName = metadata.displayName;
     description = metadata.description;
     usage = metadata.usage;
     permission = metadata.permission;
-    requiredArgumentAmount = metadata.requiredArgumentAmount;
+    requiredArguments = metadata.requiredArguments;
   }
 
   public static Builder command(String name) {
@@ -38,11 +36,6 @@ public class CommandMetadata {
     public Builder(String commandName) {
       metadata = new CommandMetadata();
       metadata.name = commandName;
-    }
-
-    public Builder displayName(String displayName) {
-      metadata.displayName = displayName;
-      return this;
     }
 
     public Builder description(String description) {
@@ -60,8 +53,8 @@ public class CommandMetadata {
       return this;
     }
 
-    public Builder requiredArgumentAmount(int requiredArgumentAmount) {
-      metadata.requiredArgumentAmount = requiredArgumentAmount;
+    public Builder requiredArguments(int requiredArguments) {
+      metadata.requiredArguments = requiredArguments;
       return this;
     }
 
