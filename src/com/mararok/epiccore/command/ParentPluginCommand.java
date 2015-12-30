@@ -36,7 +36,7 @@ public abstract class ParentPluginCommand<P extends JavaPlugin> extends ChildPlu
   }
 
   private boolean execSubCommand(CommandSender sender, CommandArguments<P> arguments) throws Exception {
-    String subCommandName = arguments.get(0);
+    String subCommandName = arguments.get(0).toLowerCase();
     ChildPluginCommand<P> childCommand = getCommandByName(subCommandName);
     if (childCommand != null) {
       return childCommand.onCommand(sender, arguments.getArgumentsForChild(childCommand));
@@ -62,7 +62,7 @@ public abstract class ParentPluginCommand<P extends JavaPlugin> extends ChildPlu
     subCommandsInfo[0] = ChatColor.YELLOW + "" + ChatColor.BOLD + getDescription();
     int i = 1;
     for (PluginCommand<P> sub : children) {
-      subCommandsInfo[i] = sub.getDisplayName() + ChatColor.RESET + " - " + sub.getDescription();
+      subCommandsInfo[i] = sub.getName() + ChatColor.RESET + " - " + sub.getDescription();
       ++i;
     }
     sender.sendMessage(subCommandsInfo);
