@@ -15,7 +15,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**
- * Base class for command
+ * Base class for plugin command
  */
 public abstract class PluginCommand<P extends JavaPlugin> implements CommandExecutor {
   private CommandMetadata metadata;
@@ -29,7 +29,12 @@ public abstract class PluginCommand<P extends JavaPlugin> implements CommandExec
   public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
     CommandArguments<P> arguments = new CommandArguments<P>(args);
     try {
-      return (sender instanceof Player) ? onCommandAsPlayer((Player) sender, arguments) : onCommand(sender, arguments);
+      boolean result = (sender instanceof Player) ? onCommandAsPlayer((Player) sender, arguments) : onCommand(sender, arguments);
+      if (!result) {
+        sendUsage(sender);
+      }
+
+      return true;
     } catch (Exception e) {
       getPlugin().getLogger().log(Level.SEVERE, "exception in command: " + getName() + " with arguments: " + arguments + " and sender: " + sender.getName(), e);
       sender.sendMessage("INTERNAL ERROR");
@@ -37,6 +42,9 @@ public abstract class PluginCommand<P extends JavaPlugin> implements CommandExec
     }
   }
 
+  /**
+   * Default onCommand handler when sender is specified
+   */
   protected boolean onCommand(CommandSender sender, CommandArguments<P> arguments) throws Exception {
     return false;
   }
@@ -50,16 +58,15 @@ public abstract class PluginCommand<P extends JavaPlugin> implements CommandExec
   }
 
   protected void sendDescription(CommandSender sender) {
-    String message = ChatColor.YELLOW + "" + ChatColor.BOLD + getDisplayName() + ChatColor.RESET + " - " + getDescription();
-    sender.sendMessage(message);
+    sender.sendMessage(ChatColor.YELLOW + "" + ChatColor.BOLD + getName() + ChatColor.RESET + " - " + getDescription());
+  }
+
+  protected void sendUsage(CommandSender sender) {
+    sender.sendMessage(getUsage());
   }
 
   public String getName() {
     return metadata.name;
-  }
-
-  public String getDisplayName() {
-    return metadata.displayName;
   }
 
   public String getDescription() {
@@ -79,11 +86,11 @@ public abstract class PluginCommand<P extends JavaPlugin> implements CommandExec
    * If command don't define any permission always return true
    */
   public boolean hasPermission(CommandSender sender) {
-    return (metadata.permission != null) ? sender.hasPermission(metadata.permission) : true;
+    return (getPermission() != null) ? sender.hasPermission(getPermission()) : true;
   }
 
   public int getRequiredArgumentAmount() {
-    return metadata.requiredArgumentAmount;
+    return metadata.requiredArguments;
   }
 
   protected void setMetadata(CommandMetadata metadata) {
