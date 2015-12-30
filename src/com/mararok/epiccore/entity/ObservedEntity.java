@@ -9,7 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Extends Entity type with tracking properties changes. lazy create changed properties list for memory saves.
+ * Extends Entity type with tracking properties changes
+ * Lazy create changed properties list for memory saves
  */
 public class ObservedEntity extends Entity {
   private List<PropertyEntry> changedProperties;
@@ -19,7 +20,7 @@ public class ObservedEntity extends Entity {
   }
 
   /**
-   * Execute when some property changes value. Helper method for integer properties.
+   * Execute when some property changes value. Helper method for integer properties
    */
   protected void onChangeProperty(String name, int newValue) {
     onChangeProperty(name, Integer.toString(newValue));
@@ -42,6 +43,9 @@ public class ObservedEntity extends Entity {
 
   }
 
+  /**
+   * Returns new property value if property was changed
+   */
   public PropertyEntry getChangedProperty(String name) {
     if (hasAnyChangedProperties()) {
       for (PropertyEntry entry : changedProperties) {
@@ -53,6 +57,9 @@ public class ObservedEntity extends Entity {
     return null;
   }
 
+  /**
+   * Returns all changed properties list
+   */
   public PropertyEntry[] getChangedProperties() {
     PropertyEntry[] list = null;
     if (hasAnyChangedProperties()) {
