@@ -12,6 +12,9 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 
+/**
+ * Container for subcommands
+ */
 public abstract class ParentPluginCommand<P extends JavaPlugin> extends ChildPluginCommand<P> {
   private Collection<ChildPluginCommand<P>> children;
 
@@ -25,13 +28,19 @@ public abstract class ParentPluginCommand<P extends JavaPlugin> extends ChildPlu
     children.add(command);
   }
 
+  /**
+   * Sends subcommands descriptions list, whenm executed without arguments
+   */
   @Override
   protected boolean onCommand(CommandSender sender, CommandArguments<P> arguments) throws Exception {
     if (arguments.isExists(0)) {
-      return execSubCommand(sender, arguments);
+      if (!execSubCommand(sender, arguments)) {
+        sendUsage(sender);
+      }
+    } else {
+      sendDescription(sender);
     }
 
-    sendDescription(sender);
     return true;
   }
 
@@ -39,16 +48,16 @@ public abstract class ParentPluginCommand<P extends JavaPlugin> extends ChildPlu
     String subCommandName = arguments.get(0).toLowerCase();
     ChildPluginCommand<P> childCommand = getCommandByName(subCommandName);
     if (childCommand != null) {
-      return childCommand.onCommand(sender, arguments.getArgumentsForChild(childCommand));
+      childCommand.onCommand(sender, arguments.getArgumentsForChild(childCommand));
+      return true;
+    } else {
+      return false;
     }
-
-    sender.sendMessage("Command: " + subCommandName + " not exists or not implemented yet");
-    return false;
   }
 
   protected ChildPluginCommand<P> getCommandByName(String name) {
     for (ChildPluginCommand<P> child : children) {
-      if (child.getName() == name) {
+      if (child.getName().equals(name)) {
         return child;
       }
     }
@@ -62,7 +71,7 @@ public abstract class ParentPluginCommand<P extends JavaPlugin> extends ChildPlu
     subCommandsInfo[0] = ChatColor.YELLOW + "" + ChatColor.BOLD + getDescription();
     int i = 1;
     for (PluginCommand<P> sub : children) {
-      subCommandsInfo[i] = sub.getName() + ChatColor.RESET + " - " + sub.getDescription();
+      subCommandsInfo[i] = " " + sub.getName() + ChatColor.RESET + " - " + sub.getDescription();
       ++i;
     }
     sender.sendMessage(subCommandsInfo);
