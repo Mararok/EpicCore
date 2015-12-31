@@ -29,12 +29,17 @@ public abstract class PluginCommand<P extends JavaPlugin> implements CommandExec
   public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
     CommandArguments<P> arguments = new CommandArguments<P>(args);
     try {
-      boolean result = (sender instanceof Player) ? onCommandAsPlayer((Player) sender, arguments) : onCommand(sender, arguments);
+      boolean result = false;
+      if (arguments.hasRequired(this)) {
+        result = (sender instanceof Player) ? onCommandAsPlayer((Player) sender, arguments) : onCommand(sender, arguments);
+      }
+
       if (!result) {
         sendUsage(sender);
       }
 
       return true;
+
     } catch (Exception e) {
       getPlugin().getLogger().log(Level.SEVERE, "exception in command: " + getName() + " with arguments: " + arguments + " and sender: " + sender.getName(), e);
       sender.sendMessage("INTERNAL ERROR");
