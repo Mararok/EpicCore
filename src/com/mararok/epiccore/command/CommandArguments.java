@@ -77,6 +77,32 @@ public class CommandArguments<P extends JavaPlugin> {
     return get(index).charAt(0);
   }
 
+  /**
+   * @see #join(int, int, String)
+   */
+  public String join(int startIndex, String separator) throws IndexOutOfBoundsException {
+    return join(startIndex, getAmount() - startIndex, separator);
+  }
+
+  /**
+   * Joins many arguments in to one
+   * 
+   * @throws IndexOutOfBoundsException when startIndex is < 0 or >= argmuments amount
+   */
+  public String join(int startIndex, int length, String separator) throws IndexOutOfBoundsException {
+    int lastIndex = startIndex + (length - 1);
+    if (startIndex < 0 || lastIndex >= getAmount()) {
+      throw new IndexOutOfBoundsException();
+    }
+
+    String argument = "";
+    for (int i = startIndex; i < lastIndex; ++i) {
+      argument += get(i) + separator;
+    }
+    argument += get(lastIndex);
+    return argument;
+  }
+
   public boolean hasRequired(PluginCommand<P> command) {
     return (getAmount() >= command.getRequiredArgumentAmount());
   }
