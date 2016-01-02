@@ -9,7 +9,7 @@ import java.util.Arrays;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
-import com.mararok.epiccore.StringUtil;
+import com.mararok.epiccore.misc.StringUtils;
 
 /**
  * Simple command arguments wrapper.
@@ -38,7 +38,7 @@ public class CommandArguments<P extends JavaPlugin> {
   }
 
   public boolean isNumber(int index) {
-    return isExists(index) && StringUtil.isNumber(get(index));
+    return isExists(index) && StringUtils.isNumber(get(index));
   }
 
   public double asDouble(int index) throws NumberFormatException {
@@ -66,7 +66,7 @@ public class CommandArguments<P extends JavaPlugin> {
   }
 
   public boolean isBoolean(int index) {
-    return isExists(index) && StringUtil.isBoolean(get(index));
+    return isExists(index) && StringUtils.isBoolean(get(index));
   }
 
   public boolean asBoolean(int index) {

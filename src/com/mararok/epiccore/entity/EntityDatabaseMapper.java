@@ -11,6 +11,8 @@ import java.sql.SQLException;
 import java.util.Collection;
 import java.util.LinkedList;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.mararok.epiccore.database.DMQL;
 import com.mararok.epiccore.entity.ObservedEntity.PropertyEntry;
 
@@ -129,10 +131,10 @@ public abstract class EntityDatabaseMapper<E extends ObservedEntity, ED> impleme
   }
 
   protected static String columns(String... columns) {
-    return String.join(",", columns);
+    return StringUtils.join(columns, ',');
   }
 
   protected static String values(String... values) {
-    return String.join(",", values);
+    return StringUtils.join(values, ',');
   }
 }

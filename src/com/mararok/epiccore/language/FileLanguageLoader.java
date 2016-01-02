@@ -6,6 +6,7 @@
 package com.mararok.epiccore.language;
 
 import java.io.Reader;
+import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.LinkOption;
 import java.nio.file.Path;
@@ -27,7 +28,7 @@ public class FileLanguageLoader implements LanguageLoader {
     Path langPath = basePath.resolve(languagePrefix + ".yml");
     if (Files.exists(langPath, LinkOption.NOFOLLOW_LINKS)) {
       try {
-        Reader file = Files.newBufferedReader(langPath);
+        Reader file = Files.newBufferedReader(langPath, Charset.defaultCharset());
         return parseLanguageFile(file);
       } catch (Exception e) {
         throw new Exception("Can't read language file " + langPath, e);

@@ -3,7 +3,7 @@
  * The MIT License
  * Copyright (C) 2015 Mararok <mararok@gmail.com>
  */
-package com.mararok.epiccore;
+package com.mararok.epiccore.misc;
 
 import java.util.ArrayList;
 import java.util.List;

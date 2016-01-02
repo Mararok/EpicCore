@@ -3,7 +3,7 @@
  * The MIT License
  * Copyright (C) 2015 Mararok <mararok@gmail.com>
  */
-package com.mararok.epiccore;
+package com.mararok.epiccore.math;
 
 public class Position3D implements Cloneable {
   public int x, y, z;

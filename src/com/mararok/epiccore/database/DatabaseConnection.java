@@ -8,7 +8,7 @@ package com.mararok.epiccore.database;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-import com.mararok.epiccore.Disposable;
+import com.mararok.epiccore.misc.Disposable;
 
 /**
  * Intarface for connection to sql database
