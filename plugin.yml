@@ -1,0 +1,8 @@
+name: EpicCore
+main: com.mararok.epiccore.EpicCorePlugin
+authors: [Mararok]
+version: 1.0
+prefix: EC
+description: EpicCore is a plugin that contains utility and features that other plugins make use of.
+load: startup
+ 

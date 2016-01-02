@@ -1,0 +1,15 @@
+<project name="EpicCore" default="main">
+	<property name="projectHome" location="." />
+	<target name="clean">
+		<delete dir="${projectHome}/build" />
+	</target>
+
+	<target name="buildJAR">
+		<jar destfile="${projectHome}/build/EpicCore.jar" manifest="${projectHome}/EpicCore.manifest" update="true" basedir="${projectHome}/bin">
+			<fileset dir="${projectHome}/" includes="plugin.yml LICENSE" />
+		</jar>
+	</target>
+
+
+	<target name="main" depends="clean,buildJAR" />
+</project>
