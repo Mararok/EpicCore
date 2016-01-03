@@ -40,7 +40,7 @@ public class Language {
   }
 
   /**
-   * @return text from key or when isn't exists returns key.
+   * @return text from key or when doesn't exists returns key
    */
   public String getText(String key) {
     String string = strings.get(key);
@@ -48,7 +48,7 @@ public class Language {
   }
 
   /**
-   * @return formated text from key or when isn't exists returns key.
+   * @return formated text from key or when doesn't exists returns key
    */
   public String getFormatedText(String key, Object... arguments) {
     String text = getText(key);

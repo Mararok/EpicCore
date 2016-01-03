@@ -53,16 +53,10 @@ public class FileLanguageLoader implements LanguageLoader {
     paths.remove("author");
     paths.remove("version");
 
-    int size = paths.size();
-    String[] keys = new String[size];
-    String[] values = new String[size];
-    int i = 0;
-    for (String path : paths) {
-      keys[i++] = path;
-      values[i++] = config.getString(path);
-    }
-
     Map<String, String> strings = new HashMap<String, String>();
+    for (String path : paths) {
+      strings.put(path, config.getString(path));
+    }
 
     return new Language(name, prefix, author, version, strings);
   }
