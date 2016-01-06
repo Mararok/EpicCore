@@ -7,15 +7,16 @@ package com.mararok.epiccore.database;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-
-import com.mararok.epiccore.misc.Disposable;
+import java.sql.Statement;
 
 /**
  * Intarface for connection to sql database
  */
-public interface DatabaseConnection extends Disposable {
+public interface DatabaseConnection {
 
   public int exec(String sql) throws SQLException;
+
+  public Statement query() throws SQLException;
 
   public PreparedStatement prepareQuery(String sql) throws SQLException;
 
@@ -34,6 +35,4 @@ public interface DatabaseConnection extends Disposable {
   public void rollback() throws SQLException;
 
   DatabaseConnectionConfig getConfig();
-
-  public void logException(SQLException e);
 }
