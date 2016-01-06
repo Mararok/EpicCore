@@ -76,6 +76,12 @@ public class DatabaseConnectionImpl implements DatabaseConnection {
   }
 
   @Override
+  public void close() throws SQLException {
+    clearCache();
+    connection.close();
+  }
+
+  @Override
   public DatabaseConnectionConfig getConfig() {
     return config;
   }

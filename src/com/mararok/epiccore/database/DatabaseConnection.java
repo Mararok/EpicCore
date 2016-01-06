@@ -34,5 +34,7 @@ public interface DatabaseConnection {
 
   public void rollback() throws SQLException;
 
+  public void close() throws SQLException;
+
   DatabaseConnectionConfig getConfig();
 }
