@@ -5,16 +5,14 @@
  */
 package com.mararok.epiccore.entity;
 
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Collection;
 import java.util.LinkedList;
 
-import org.apache.commons.lang3.StringUtils;
-
 import com.mararok.epiccore.database.DMQL;
 import com.mararok.epiccore.entity.ObservedEntity.PropertyEntry;
+import com.mararok.epiccore.misc.StringUtils;
 
 /**
  * SQL databases entity mapper
@@ -38,52 +36,32 @@ public abstract class EntityDatabaseMapper<E extends ObservedEntity, ED> impleme
   }
 
   public E findOne(String where) throws Exception {
-    PreparedStatement query = queries.select.getCompiledQuery();
-    query.setString(1, "*");
-    query.setString(2, getTableName());
-    query.setString(3, where);
-    ResultSet resultSet = query.executeQuery();
+    ResultSet resultSet = queries.select("*", getTableName(), where);
     return resultSet.first() ? create(resultSet) : null;
   }
 
   @Override
   public Collection<E> findAll() throws Exception {
-    return find("1");
+    return find(null);
   }
 
   public Collection<E> find(String where) throws Exception {
-    PreparedStatement query = queries.select.getCompiledQuery();
-    query.setString(1, "*");
-    query.setString(2, getTableName());
-    query.setString(3, where);
-    ResultSet resultSet = query.executeQuery();
-
+    ResultSet resultSet = queries.select("*", getTableName(), where);
     Collection<E> collection = new LinkedList<E>();
     while (resultSet.next()) {
       collection.add(create(resultSet));
     }
 
     return collection;
+
   }
 
   /**
-   * @param columns
-   *          comma separated names of table columns
-   * @param values
-   *          comma separated values list
+   * @param columns Comma separated names of table columns
+   * @param values Comma separated values list
    */
   protected int insert(String columns, String values) throws Exception {
-    PreparedStatement query = queries.insert.getCompiledQuery();
-    query.setString(1, getTableName());
-    query.setString(2, columns);
-    query.setString(3, values);
-    query.executeUpdate();
-    ResultSet result = query.getGeneratedKeys();
-    if (result.next()) {
-      return result.getInt(1);
-    }
-
-    return 0;
+    return queries.insert(getTableName(), columns, values);
   }
 
   @Override
@@ -95,20 +73,13 @@ public abstract class EntityDatabaseMapper<E extends ObservedEntity, ED> impleme
         setString += property.name + "=" + property.value;
       }
 
-      PreparedStatement query = queries.update.getCompiledQuery();
-      query.setString(1, getTableName());
-      query.setString(2, setString);
-      query.setString(3, "id=" + entity.getId());
-      query.executeUpdate();
+      queries.update(getTableName(), setString, "id=" + entity.getId());
     }
   }
 
   @Override
   public void delete(E entity) throws Exception {
-    PreparedStatement query = queries.delete.getCompiledQuery();
-    query.setString(1, getTableName());
-    query.setString(2, "id=" + entity.getId());
-    query.executeUpdate();
+    queries.delete(getTableName(), "id=" + entity.getId());
   }
 
   protected E create(ResultSet resultSet) throws Exception {
@@ -130,11 +101,11 @@ public abstract class EntityDatabaseMapper<E extends ObservedEntity, ED> impleme
     return factory;
   }
 
-  protected static String columns(String... columns) {
-    return StringUtils.join(columns, ',');
+  protected static String columns(Object... columns) {
+    return StringUtils.join(columns, ",");
   }
 
-  protected static String values(String... values) {
-    return StringUtils.join(values, ',');
+  protected static String values(Object... values) {
+    return "(" + StringUtils.join(values, ",") + ")";
   }
 }
