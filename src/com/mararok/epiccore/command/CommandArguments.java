@@ -119,4 +119,9 @@ public class CommandArguments<P extends JavaPlugin> {
     return amount;
   }
 
+  @Override
+  public String toString() {
+    return Arrays.toString(rawArguments);
+  }
+
 }
