@@ -8,7 +8,8 @@ package com.mararok.epiccore.database;
 public class DatabaseConnectionConfig {
   public String engine;
   public String host;
-  public String dbName;
+  public int port;
+  public String name;
   public String user;
   public String password;
 }

@@ -9,29 +9,22 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-import org.bukkit.plugin.java.JavaPlugin;
-
 public class DatabaseConnectionFactory {
   private static final String SQLite_DRIVER = "org.sqlite.JDBC";
   private static final String MySQL_DRIVER = "com.mysql.jdbc.Driver";
 
-  public static DatabaseConnection newConnection(DatabaseConnectionConfig config, JavaPlugin plugin) 
-      throws SQLException {
-    
-    Connection jdbcConnection = createJDBCConnection(config,plugin);
-    return new DatabaseConnectionImpl(jdbcConnection,config,plugin.getLogger());
+  public static DatabaseConnection newConnection(DatabaseConnectionConfig config) throws SQLException {
+    return new DatabaseConnectionImpl(createJDBCConnection(config), config);
   }
 
-  private static Connection createJDBCConnection(DatabaseConnectionConfig config, JavaPlugin plugin) 
-      throws SQLException {
-    
+  private static Connection createJDBCConnection(DatabaseConnectionConfig config) throws SQLException {
     String connectionURL;
     String engineDriverName;
 
     if (config.engine.equalsIgnoreCase("SQLite")) {
-      connectionURL = createSQLiteConnectionURL(config,plugin);
+      connectionURL = createSQLiteConnectionURL(config);
       engineDriverName = SQLite_DRIVER;
-    } else if (config.engine.equalsIgnoreCase("MySQL")) {
+    } else if (config.engine.equalsIgnoreCase("MySql")) {
       connectionURL = createMySQLConnectionURL(config);
       engineDriverName = MySQL_DRIVER;
     } else {
@@ -47,13 +40,12 @@ public class DatabaseConnectionFactory {
 
   }
 
-  private static String createSQLiteConnectionURL(DatabaseConnectionConfig config, JavaPlugin plugin) {
+  private static String createSQLiteConnectionURL(DatabaseConnectionConfig config) {
     return String.format(
-        "jdbc:sqlite:%s/%s.db",plugin.getDataFolder().getPath(),config.dbName);
+        "jdbc:sqlite:%s.db", config.name);
   }
 
   private static String createMySQLConnectionURL(DatabaseConnectionConfig config) {
-    return String.format(
-        "jdbc:mysql://%s/%s?user=%s&password=%s",config.host,config.dbName,config.user,config.password);
+    return String.format("jdbc:mysql://%s:%s/%s?user=%s&password=%s", config.host, config.port, config.name, config.user, config.password);
   }
 }
