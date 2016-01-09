@@ -23,4 +23,14 @@ public class StringUtils {
 
     return output + pieces[lastIndex];
   }
+
+  public static String join(int[] pieces, String separator) {
+    String output = "";
+    int lastIndex = pieces.length - 1;
+    for (int i = 0; i < lastIndex; ++i) {
+      output += pieces[i] + separator;
+    }
+
+    return output + pieces[lastIndex];
+  }
 }
