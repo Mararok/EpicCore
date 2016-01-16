@@ -36,13 +36,14 @@ public class DatabaseConnectionFactory {
       return DriverManager.getConnection(connectionURL);
     } catch (ClassNotFoundException e) {
       throw new SQLException("Driver " + engineDriverName + " not found");
+    } catch (Exception e) {
+      throw new SQLException("Can't connect to database, url: " + connectionURL, e);
     }
 
   }
 
   private static String createSQLiteConnectionURL(DatabaseConnectionConfig config) {
-    return String.format(
-        "jdbc:sqlite:%s.db", config.name);
+    return String.format("jdbc:sqlite:%s.db", config.name);
   }
 
   private static String createMySQLConnectionURL(DatabaseConnectionConfig config) {
