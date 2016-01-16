@@ -20,16 +20,9 @@ public class ObservedEntity extends Entity {
   }
 
   /**
-   * Execute when some property changes value. Helper method for integer properties
-   */
-  protected void onChangeProperty(String name, int newValue) {
-    onChangeProperty(name, Integer.toString(newValue));
-  }
-
-  /**
    * Execute when some property changes value.
    */
-  protected void onChangeProperty(String name, String newValue) {
+  protected void onChangeProperty(String name, Object newValue) {
     if (!hasAnyChangedProperties()) {
       changedProperties = new ArrayList<PropertyEntry>();
     }
@@ -82,9 +75,9 @@ public class ObservedEntity extends Entity {
 
   public class PropertyEntry {
     public String name;
-    public String value;
+    public Object value;
 
-    public PropertyEntry(String name, String value) {
+    public PropertyEntry(String name, Object value) {
       this.name = name;
       this.value = value;
     }
