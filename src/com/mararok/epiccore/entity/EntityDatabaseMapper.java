@@ -101,11 +101,20 @@ public abstract class EntityDatabaseMapper<E extends ObservedEntity, ED> impleme
     return factory;
   }
 
-  protected static String columns(Object... columns) {
+  protected static String columns(String... columns) {
     return StringUtils.join(columns, ",");
   }
 
   protected static String values(Object... values) {
-    return "(" + StringUtils.join(values, ",") + ")";
+    Object[] convertedValues = new Object[values.length];
+    int i = 0;
+    for (Object value : values) {
+      convertedValues[i++] = (value instanceof String) ? encloseValueInQuotes((String) value) : value;
+    }
+    return "(" + StringUtils.join(convertedValues, ",") + ")";
+  }
+
+  protected static String encloseValueInQuotes(String value) {
+    return "'" + value + "'";
   }
 }
