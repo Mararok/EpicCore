@@ -45,10 +45,12 @@ public abstract class PluginCommand<P extends JavaPlugin> implements CommandExec
    * Default onCommand handler
    */
   protected boolean onCommand(CommandSender sender, CommandArguments<P> arguments) throws Exception {
-    if (arguments.hasRequired(this) && sender instanceof Player) {
-      if (!onCommandAsPlayer((Player) sender, arguments)) {
+    if (arguments.hasRequired(this)) {
+      if (sender instanceof Player && !onCommandAsPlayer((Player) sender, arguments)) {
         sendUsage(sender);
       }
+    } else {
+      sendUsage(sender);
     }
 
     return true;
