@@ -47,6 +47,7 @@ public class DatabaseConnectionFactory {
   }
 
   private static String createMySQLConnectionURL(DatabaseConnectionConfig config) {
-    return String.format("jdbc:mysql://%s:%s/%s?user=%s&password=%s", config.host, config.port, config.name, config.user, config.password);
+    return String.format("jdbc:mysql://%s:%s/%s?user=%s&password=%s&useUnicode=true&characterEncoding=UTF-8", config.host, config.port, config.name, config.user,
+        config.password);
   }
 }
