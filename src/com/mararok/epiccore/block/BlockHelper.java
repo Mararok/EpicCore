@@ -14,31 +14,31 @@ import org.bukkit.block.Block;
  */
 public class BlockHelper {
 
-  public void setWoolBlock(Block block, DyeColor dye) {
+  public static void setWoolBlock(Block block, DyeColor dye) {
     block.setType(Material.WOOL);
     setBlockColor(block, dye);
   }
 
-  public void setStainedGlassBlock(Block block, DyeColor dye) {
+  public static void setStainedGlassBlock(Block block, DyeColor dye) {
     block.setType(Material.STAINED_GLASS);
     setBlockColor(block, dye);
   }
 
-  public void setStainedGlassPaneBlock(Block block, DyeColor dye) {
+  public static void setStainedGlassPaneBlock(Block block, DyeColor dye) {
     block.setType(Material.STAINED_GLASS_PANE);
     setBlockColor(block, dye);
   }
 
-  public void setStainedClayBlock(Block block, DyeColor dye) {
+  public static void setStainedClayBlock(Block block, DyeColor dye) {
     block.setType(Material.STAINED_CLAY);
     setBlockColor(block, dye);
   }
 
-  public void setBlockColor(Block block, DyeColor dye) {
+  public static void setBlockColor(Block block, DyeColor dye) {
     block.setData(dye.getData());
   }
 
-  public DyeColor getBlockColor(Block block) {
+  public static DyeColor getBlockColor(Block block) {
     return DyeColor.getByData(block.getData());
   }
 }
