@@ -21,7 +21,7 @@ public class DMQL {
 
   public int insert(String tableName, String columns, String values) throws SQLException {
     Statement query = connection.query();
-    query.executeUpdate("INSERT " + tableName + "(" + columns + ") VALUES(" + values + ")");
+    query.executeUpdate("INSERT " + tableName + "(" + columns + ") VALUES(" + values + ")", Statement.RETURN_GENERATED_KEYS);
     ResultSet result = query.getGeneratedKeys();
     return (result.next()) ? result.getInt(1) : 0;
   }
@@ -31,7 +31,7 @@ public class DMQL {
     try {
       return connection.query().executeQuery(sql);
     } catch (SQLException e) {
-      throw new SQLException(sql);
+      throw new SQLException(sql, e);
     }
 
   }
