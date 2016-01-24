@@ -5,13 +5,13 @@
  */
 package com.mararok.epiccore.math;
 
-public class Position3D implements Cloneable {
+public class Vector3i implements Cloneable {
   public int x, y, z;
 
-  public Position3D() {
+  public Vector3i() {
   }
 
-  public Position3D(int x, int y, int z) {
+  public Vector3i(int x, int y, int z) {
     this.set(x, y, z);
   }
 
@@ -21,18 +21,18 @@ public class Position3D implements Cloneable {
     this.z = z;
   }
 
-  public double distance(Position3D other) {
+  public double distance(Vector3i other) {
     return UMath.distance(x, y, z, other.x, other.y, other.z);
   }
 
-  public boolean isWithinSphere(Position3D sphereCenter, int radius) {
+  public boolean isWithinSphere(Vector3i sphereCenter, int radius) {
     return UMath.isPointWithinSphere(x, y, z, sphereCenter.x, sphereCenter.y, sphereCenter.z, radius);
   }
 
   @Override
-  public Position3D clone() {
+  public Vector3i clone() {
     try {
-      return (Position3D) super.clone();
+      return (Vector3i) super.clone();
     } catch (CloneNotSupportedException e) {
       throw new InternalError();
     }
