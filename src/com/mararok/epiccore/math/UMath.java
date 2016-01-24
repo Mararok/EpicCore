@@ -24,7 +24,7 @@ public class UMath {
     return Math.floor(distance(x1, y1, z1, x2, y2, z2)) <= radius;
   }
 
-  public static long getRandomIntegerFromRange(Random generator, int min, int max) {
+  public static int getRandomIntegerFromRange(Random generator, int min, int max) {
     return generator.nextInt(max - min) + min;
   }
 
