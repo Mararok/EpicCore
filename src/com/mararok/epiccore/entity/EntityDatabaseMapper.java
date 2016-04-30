@@ -36,8 +36,11 @@ public abstract class EntityDatabaseMapper<E extends ObservedEntity, ED> impleme
   }
 
   public E findOne(String where) throws Exception {
-    ResultSet resultSet = queries.select("*", getTableName(), where);
-    return resultSet.first() ? create(resultSet) : null;
+    try (ResultSet resultSet = queries.select("*", getTableName(), where)) {
+      return resultSet.first() ? create(resultSet) : null;
+    } catch (SQLException e) {
+      throw e;
+    }
   }
 
   @Override
@@ -46,14 +49,15 @@ public abstract class EntityDatabaseMapper<E extends ObservedEntity, ED> impleme
   }
 
   public Collection<E> find(String where) throws Exception {
-    ResultSet resultSet = queries.select("*", getTableName(), where);
-    Collection<E> collection = new LinkedList<E>();
-    while (resultSet.next()) {
-      collection.add(create(resultSet));
+    try (ResultSet resultSet = queries.select("*", getTableName(), where)) {
+      Collection<E> collection = new LinkedList<E>();
+      while (resultSet.next()) {
+        collection.add(create(resultSet));
+      }
+      return collection;
+    } catch (SQLException e) {
+      throw e;
     }
-
-    return collection;
-
   }
 
   /**
@@ -111,7 +115,7 @@ public abstract class EntityDatabaseMapper<E extends ObservedEntity, ED> impleme
     for (Object value : values) {
       convertedValues[i++] = (value instanceof String) ? encloseValueInQuotes((String) value) : value;
     }
-    return "(" + StringUtils.join(convertedValues, ",") + ")";
+    return StringUtils.join(convertedValues, ",");
   }
 
   protected static String encloseValueInQuotes(String value) {
