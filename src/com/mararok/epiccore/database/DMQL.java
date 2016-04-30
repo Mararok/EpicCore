@@ -20,10 +20,14 @@ public class DMQL {
   }
 
   public int insert(String tableName, String columns, String values) throws SQLException {
-    Statement query = connection.query();
-    query.executeUpdate("INSERT " + tableName + "(" + columns + ") VALUES(" + values + ")", Statement.RETURN_GENERATED_KEYS);
-    ResultSet result = query.getGeneratedKeys();
-    return (result.next()) ? result.getInt(1) : 0;
+    String sql = "INSERT " + tableName + "(" + columns + ") VALUES(" + values + ")";
+    try (Statement query = connection.query()) {
+      query.executeUpdate(sql, Statement.RETURN_GENERATED_KEYS);
+      ResultSet result = query.getGeneratedKeys();
+      return (result.next()) ? result.getInt(1) : 0;
+    } catch (SQLException e) {
+      throw new SQLException(sql, e);
+    }
   }
 
   public ResultSet select(String columns, String from, String where) throws SQLException {
@@ -37,11 +41,21 @@ public class DMQL {
   }
 
   public int update(String tableName, String set, String where) throws SQLException {
-    return connection.exec("UPDATE " + tableName + " SET " + set + " WHERE " + where);
+    String sql = "UPDATE " + tableName + " SET " + set + " WHERE " + where;
+    try {
+      return connection.exec(sql);
+    } catch (SQLException e) {
+      throw new SQLException(sql, e);
+    }
   }
 
   public int delete(String from, String where) throws SQLException {
-    return connection.exec("DELETE " + from + " WHERE " + where);
+    String sql = "DELETE " + from + " WHERE " + where;
+    try {
+      return connection.exec(sql);
+    } catch (SQLException e) {
+      throw new SQLException(sql, e);
+    }
   }
 
 }
