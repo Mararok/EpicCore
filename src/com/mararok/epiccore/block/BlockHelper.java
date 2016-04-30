@@ -34,10 +34,12 @@ public class BlockHelper {
     setBlockColor(block, dye);
   }
 
+  @SuppressWarnings("deprecation")
   public static void setBlockColor(Block block, DyeColor dye) {
     block.setData(dye.getData());
   }
 
+  @SuppressWarnings("deprecation")
   public static DyeColor getBlockColor(Block block) {
     return DyeColor.getByData(block.getData());
   }
